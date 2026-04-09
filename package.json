@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "deploy:git": "git push origin HEAD:main",
     "deploy:prod": "vercel --prod"
   }
 }
