@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/api/financeiro/([0-9]+)/repasse", "destination": "/api/financeiro/repasse?id=$1" },
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*)",     "destination": "/index.html" }
+  ]
+}

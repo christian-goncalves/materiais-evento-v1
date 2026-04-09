@@ -1,0 +1,22 @@
+# Vercel
+.vercel/
+vercel-dev*.log
+
+# Local environment files (never commit secrets)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+!.env.example
+!.env*.example
+
+# Sensitive credential files (targeted patterns)
+drive-api-test-*.json
+service-account*.json
+*service-account*.json
+*credentials*.json
+*credential*.json
+*private-key*.json
+*secret*.json

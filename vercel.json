@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/financeiro/([0-9]+)/repasse",
+      "destination": "/api/financeiro/[id]/repasse?id=$1"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/materiais-evento-v1/index.html"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+[
+  { "id": "camiseta", "nome": "Camiseta", "emoji": "", "preco": 50 },
+  { "id": "caneca",   "nome": "Caneca",   "emoji": "", "preco": 35 }
+]

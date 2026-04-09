@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "source": "capturas + pdf em docs/materiais.factoria.dev/images",
+    "generated_at": "2026-04-03",
+    "notes": [
+      "Dados de telefone e pagData nao visiveis nas capturas foram preenchidos como vazio.",
+      "Status pago visivel nas capturas: Hiuca Shimada e Turco.",
+      "Preco inferido pelas capturas: camiseta=50, caneca=35."
+    ]
+  },
+  "materiais_preco_referencia": {
+    "camiseta": 50,
+    "caneca": 35
+  },
+  "pedidos": [
+    {
+      "id": 1,
+      "nome": "Hiuca Shimada",
+      "data": "07/03/2026",
+      "tel": "",
+      "itens": {
+        "camiseta": 2,
+        "caneca": 1
+      },
+      "pago": "Sim",
+      "pagData": ""
+    },
+    {
+      "id": 2,
+      "nome": "Jeferson Guarulhos",
+      "data": "31/03/2026",
+      "tel": "",
+      "itens": {
+        "camiseta": 1,
+        "caneca": 1
+      },
+      "pago": "Não",
+      "pagData": ""
+    },
+    {
+      "id": 3,
+      "nome": "Rafael H&I",
+      "data": "03/04/2026",
+      "tel": "",
+      "itens": {
+        "camiseta": 2
+      },
+      "pago": "Não",
+      "pagData": ""
+    },
+    {
+      "id": 4,
+      "nome": "Turco",
+      "data": "28/03/2026",
+      "tel": "",
+      "itens": {
+        "camiseta": 10,
+        "caneca": 4
+      },
+      "pago": "Sim",
+      "pagData": ""
+    },
+    {
+      "id": 5,
+      "nome": "Hugo",
+      "data": "30/03/2026",
+      "tel": "",
+      "itens": {
+        "camiseta": 29,
+        "caneca": 5
+      },
+      "pago": "Não",
+      "pagData": ""
+    },
+    {
+      "id": 6,
+      "nome": "Leandro CSA Guarulhos",
+      "data": "20/03/2026",
+      "tel": "",
+      "itens": {
+        "camiseta": 19,
+        "caneca": 24
+      },
+      "pago": "Não",
+      "pagData": ""
+    }
+  ]
+}

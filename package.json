@@ -1,0 +1,8 @@
+{
+  "name": "encompasso-vercel-root",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy:prod": "vercel --prod"
+  }
+}
