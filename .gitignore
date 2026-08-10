@@ -2,3 +2,14 @@
 .vercel-dev.*
 materiais-evento-v1/.env.local
 materiais-evento-v1/.vercel
+.codex
+.tools/
+.vscode/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+!.env.example
+!.env*.example
