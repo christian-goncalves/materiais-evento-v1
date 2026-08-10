@@ -54,7 +54,7 @@ Criterio:
 - [x] 1. Carregar materiais na interface.
   - Evidencia: UI abriu com status `Sincronizado` e material carregado.
 - [x] 2. Criar pedido com dois itens.
-  - Evidencia: `PUT /api/pedidos` 200 com itens `{camiseta:1, caneca:1}` e `GET /api/pedidos` refletindo ambos materiais.
+  - Evidencia: `PUT /api/pedidos` 200 com itens `{camiseta-p:1, caneca:1}` e `GET /api/pedidos` refletindo ambos materiais.
 - [x] 3. Editar pedido criado.
   - Evidencia: `PUT /api/pedidos` 200 com alteracao de nome/telefone/quantidades e `GET /api/pedidos` coerente.
 - [x] 4. Marcar pedido como pago.

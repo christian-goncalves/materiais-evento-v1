@@ -39,10 +39,18 @@ Resposta:
 ```json
 [
   {
-    "id": "camiseta",
-    "nome": "Camiseta",
-    "emoji": "👕",
+    "id": "camiseta-p",
+    "nome": "camiseta P",
+    "emoji": "🎽",
     "preco": 50,
+    "ativo": true,
+    "estoque_minimo": 10
+  },
+  {
+    "id": "camiseta-g",
+    "nome": "camiseta-g",
+    "emoji": "👕",
+    "preco": 60,
     "ativo": true,
     "estoque_minimo": 10
   }
@@ -65,10 +73,10 @@ Resposta (mantida compativel com o frontend atual):
       "data": "03/04/2026",
       "tel": "",
       "itens": {
-        "camiseta": 2
+        "camiseta-p": 2
       },
       "companheiro_por_item": {
-        "camiseta": "hugo"
+        "camiseta-p": "hugo"
       },
       "pago": "Nao",
       "pagData": ""
@@ -120,12 +128,22 @@ Mapeamento planilha:
 - Aba `estoque`: `id`, `material_id`, `tipo`, `quantidade`, `origem`, `created_at`, `companheiro_id`, `destino_tipo`.
 
 Regras:
-- Entrada de reposicao grava `tipo=entrada`.
+- Entrada global de reposicao grava `tipo=entrada`.
+- Entrada manual por companheiro validada pela planilha atual grava `tipo=ajuste`; neste ciclo, linhas `ajuste` sao a fonte correta das entradas manuais.
 - Salvamento de pedidos grava `tipo=saida_pedido` por item.
 - Transferencia para companheiro grava `tipo=transferencia_companheiro`.
 - Venda por companheiro grava `tipo=venda_companheiro`.
 - Saldo por material = soma(entrada) - soma(saida).
 - Estoque baixo quando saldo < `estoque_minimo`.
+
+## Mapeamento visual x IDs canonicos
+
+A aba `estoque_manual` e referencia visual/de conferencia, nao fonte consumida pela API.
+Quando dados dela forem aplicados em abas transacionais, use os IDs canonicos:
+
+- `camiseta P` -> `camiseta-p`
+- `camiseta G` -> `camiseta-g`
+- `copo termico` -> `copo-termico`
 
 ## Fluxo companheiros e financeiro (v1 essencial)
 

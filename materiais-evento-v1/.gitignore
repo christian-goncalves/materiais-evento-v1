@@ -20,3 +20,4 @@ service-account*.json
 *credential*.json
 *private-key*.json
 *secret*.json
+.vercel

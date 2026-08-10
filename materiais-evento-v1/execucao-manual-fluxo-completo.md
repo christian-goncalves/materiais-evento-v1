@@ -22,7 +22,7 @@ Base inicial: `pedidos`, `pedido_itens`, `estoque`, `financeiro` zerados; `mater
 | T05 | Saída com bloqueio de saldo global | Saída acima do saldo global retorna erro de estoque insuficiente | OK | Confirmado pelo usuário: bloqueio aplicado |
 | T06 | Saída com bloqueio de saldo do companheiro | Saída acima do saldo do companheiro retorna erro de saldo insuficiente | OK | Confirmado pelo usuário: bloqueio aplicado |
 | T07 | Criar pedido com todos os itens e companheiro por item | Pedido salva, itens e companheiros persistem, estoque reflete `saida_pedido` | OK | Confirmado com evidencia: pedido criado com 4 itens (incluindo chaveiro), pedido_itens e estoque com saida_pedido coerentes |
-| T08 | Editar pedido (quantidade + companheiro) | Edição salva e recalcula estoque/totais sem inconsistência | OK | Reteste aprovado: total R$165 (camiseta=2, caneca=1, garrafa=0, chaveiro=2), com validacao de saldo aplicada no primeiro intento |
+| T08 | Editar pedido (quantidade + companheiro) | Edição salva e recalcula estoque/totais sem inconsistência | OK | Reteste aprovado: total R$165 (camiseta-p=2, caneca=1, garrafa=0, chaveiro=2), com validacao de saldo aplicada no primeiro intento |
 | T09 | Fluxo de pagamento (`Pendente -> Pago`) | Botão/edição mudam status, resumo e cards atualizam corretamente | OK | Confirmado pelo usuário: transicao concluida e totais atualizados |
 | T10 | Excluir pedido | Pedido removido, totais e estoque voltam ao estado esperado | OK | Confirmado pelo usuário: pedido removido e totais zerados |
 | T11 | Persistência após refresh | Recarregar página preserva estado de pedidos, saldos e status | OK | Confirmado pelo usuário: estado consistente apos refresh |

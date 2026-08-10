@@ -102,11 +102,11 @@ if (-not $SkipTruncate) {
 $materiaisResp = Invoke-Api -Method "GET" -Path "/api/materiais"
 Assert-Status -Response $materiaisResp -ExpectedStatus 200 -Context "GET /api/materiais"
 $materiais = @($materiaisResp.Json)
-$camiseta = @($materiais | Where-Object { $_.id -eq 'camiseta' })[0]
+$camisetaP = @($materiais | Where-Object { $_.id -eq 'camiseta-p' })[0]
 $caneca = @($materiais | Where-Object { $_.id -eq 'caneca' })[0]
-Assert-True -Condition ($null -ne $camiseta) -Message "material camiseta nao encontrado"
+Assert-True -Condition ($null -ne $camisetaP) -Message "material camiseta-p nao encontrado"
 Assert-True -Condition ($null -ne $caneca) -Message "material caneca nao encontrado"
-Assert-True -Condition ([int]$camiseta.preco -eq 50) -Message "preco camiseta diferente de 50"
+Assert-True -Condition ([int]$camisetaP.preco -eq 50) -Message "preco camiseta-p diferente de 50"
 Assert-True -Condition ([int]$caneca.preco -eq 35) -Message "preco caneca diferente de 35"
 
 $companheirosResp = Invoke-Api -Method "GET" -Path "/api/companheiros"
@@ -117,9 +117,9 @@ Write-Host "[OK] Sanidade inicial"
 
 # Cenario 2 - entrada global
 $entrada1 = Invoke-Api -Method "POST" -Path "/api/estoque/entrada" -Body @{
-  material_id = "camiseta"; tipo = "entrada"; quantidade = 20; origem = "qa_manual";
+  material_id = "camiseta-p"; tipo = "entrada"; quantidade = 20; origem = "qa_manual";
 }
-Assert-Status -Response $entrada1 -ExpectedStatus 200 -Context "entrada camiseta"
+Assert-Status -Response $entrada1 -ExpectedStatus 200 -Context "entrada camiseta-p"
 $entrada2 = Invoke-Api -Method "POST" -Path "/api/estoque/entrada" -Body @{
   material_id = "caneca"; tipo = "entrada"; quantidade = 10; origem = "qa_manual";
 }
@@ -127,15 +127,15 @@ Assert-Status -Response $entrada2 -ExpectedStatus 200 -Context "entrada caneca"
 
 $resumoResp = Invoke-Api -Method "GET" -Path "/api/estoque/resumo"
 Assert-Status -Response $resumoResp -ExpectedStatus 200 -Context "resumo apos entradas"
-Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta") -eq 20) -Message "global camiseta esperado=20"
+Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta-p") -eq 20) -Message "global camiseta-p esperado=20"
 Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "caneca") -eq 10) -Message "global caneca esperado=10"
 Write-Host "[OK] Cenario 2"
 
 # Cenario 3 - transferencia para companheiro
 $t1 = Invoke-Api -Method "POST" -Path "/api/estoque/entrada" -Body @{
-  material_id = "camiseta"; tipo = "transferencia_companheiro"; quantidade = 5; origem = "qa_manual"; companheiro_id = "hugo"; destino_tipo = "companheiro";
+  material_id = "camiseta-p"; tipo = "transferencia_companheiro"; quantidade = 5; origem = "qa_manual"; companheiro_id = "hugo"; destino_tipo = "companheiro";
 }
-Assert-Status -Response $t1 -ExpectedStatus 200 -Context "transferencia camiseta"
+Assert-Status -Response $t1 -ExpectedStatus 200 -Context "transferencia camiseta-p"
 $t2 = Invoke-Api -Method "POST" -Path "/api/estoque/entrada" -Body @{
   material_id = "caneca"; tipo = "transferencia_companheiro"; quantidade = 3; origem = "qa_manual"; companheiro_id = "hugo"; destino_tipo = "companheiro";
 }
@@ -143,9 +143,9 @@ Assert-Status -Response $t2 -ExpectedStatus 200 -Context "transferencia caneca"
 
 $resumoResp = Invoke-Api -Method "GET" -Path "/api/estoque/resumo"
 Assert-Status -Response $resumoResp -ExpectedStatus 200 -Context "resumo apos transferencias"
-Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta") -eq 15) -Message "global camiseta esperado=15"
+Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta-p") -eq 15) -Message "global camiseta-p esperado=15"
 Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "caneca") -eq 7) -Message "global caneca esperado=7"
-Assert-True -Condition ((Get-CompSaldo $resumoResp.Json "hugo" "camiseta") -eq 5) -Message "hugo camiseta esperado=5"
+Assert-True -Condition ((Get-CompSaldo $resumoResp.Json "hugo" "camiseta-p") -eq 5) -Message "hugo camiseta-p esperado=5"
 Assert-True -Condition ((Get-CompSaldo $resumoResp.Json "hugo" "caneca") -eq 3) -Message "hugo caneca esperado=3"
 Write-Host "[OK] Cenario 3"
 
@@ -155,8 +155,8 @@ $pedidoAtual = @{
   nome = "QA Pedido"
   data = (Get-Date).ToString("dd/MM/yyyy")
   tel = ""
-  itens = @{ camiseta = 2; caneca = 1 }
-  companheiro_por_item = @{ camiseta = "hugo"; caneca = "hugo" }
+  itens = @{ "camiseta-p" = 2; caneca = 1 }
+  companheiro_por_item = @{ "camiseta-p" = "hugo"; caneca = "hugo" }
   pago = "Não"
   pagData = ""
 }
@@ -167,27 +167,27 @@ $pedidosResp = Invoke-Api -Method "GET" -Path "/api/pedidos"
 Assert-Status -Response $pedidosResp -ExpectedStatus 200 -Context "GET pedidos apos criar"
 Assert-True -Condition (@($pedidosResp.Json.pedidos).Count -eq 1) -Message "apos criar: total pedidos esperado=1"
 $p1 = $pedidosResp.Json.pedidos[0]
-Assert-True -Condition ([int]$p1.itens.camiseta -eq 2 -and [int]$p1.itens.caneca -eq 1) -Message "itens do pedido criado divergentes"
-$total = ([int]$p1.itens.camiseta * 50) + ([int]$p1.itens.caneca * 35)
+Assert-True -Condition ([int]$p1.itens.'camiseta-p' -eq 2 -and [int]$p1.itens.caneca -eq 1) -Message "itens do pedido criado divergentes"
+$total = ([int]$p1.itens.'camiseta-p' * 50) + ([int]$p1.itens.caneca * 35)
 Assert-True -Condition ($total -eq 135) -Message "total pedido criado esperado=135"
 
 $resumoResp = Invoke-Api -Method "GET" -Path "/api/estoque/resumo"
-Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta") -eq 13) -Message "global camiseta esperado=13 apos criar pedido"
+Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta-p") -eq 13) -Message "global camiseta-p esperado=13 apos criar pedido"
 Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "caneca") -eq 6) -Message "global caneca esperado=6 apos criar pedido"
 Write-Host "[OK] Cenario 4"
 
 # Cenario 5 - editar pedido
-$pedidoAtual.itens = @{ camiseta = 3; caneca = 1 }
+$pedidoAtual.itens = @{ "camiseta-p" = 3; caneca = 1 }
 $putEdit = Invoke-Api -Method "PUT" -Path "/api/pedidos" -Body @{ pedidos = @($pedidoAtual) }
 Assert-Status -Response $putEdit -ExpectedStatus 200 -Context "PUT editar pedido"
 
 $pedidosResp = Invoke-Api -Method "GET" -Path "/api/pedidos"
 $p1 = $pedidosResp.Json.pedidos[0]
-$total = ([int]$p1.itens.camiseta * 50) + ([int]$p1.itens.caneca * 35)
+$total = ([int]$p1.itens.'camiseta-p' * 50) + ([int]$p1.itens.caneca * 35)
 Assert-True -Condition ($total -eq 185) -Message "total pedido editado esperado=185"
 
 $resumoResp = Invoke-Api -Method "GET" -Path "/api/estoque/resumo"
-Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta") -eq 12) -Message "global camiseta esperado=12 apos editar"
+Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta-p") -eq 12) -Message "global camiseta-p esperado=12 apos editar"
 Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "caneca") -eq 6) -Message "global caneca esperado=6 apos editar"
 Write-Host "[OK] Cenario 5"
 
@@ -198,7 +198,7 @@ Assert-Status -Response $putPago -ExpectedStatus 200 -Context "PUT marcar pago"
 $pedidosResp = Invoke-Api -Method "GET" -Path "/api/pedidos"
 $p1 = $pedidosResp.Json.pedidos[0]
 Assert-True -Condition ($p1.pago -eq "Sim") -Message "pedido nao foi marcado como pago"
-$totalGeral = ([int]$p1.itens.camiseta * 50) + ([int]$p1.itens.caneca * 35)
+$totalGeral = ([int]$p1.itens.'camiseta-p' * 50) + ([int]$p1.itens.caneca * 35)
 $totalRecebido = if ($p1.pago -eq "Sim") { $totalGeral } else { 0 }
 $totalPendente = $totalGeral - $totalRecebido
 Assert-True -Condition ($totalGeral -eq 185 -and $totalRecebido -eq 185 -and $totalPendente -eq 0) -Message "resumo de pagamento divergente"
@@ -211,13 +211,13 @@ $pedidosResp = Invoke-Api -Method "GET" -Path "/api/pedidos"
 Assert-True -Condition (@($pedidosResp.Json.pedidos).Count -eq 0) -Message "apos excluir: pedidos deveria estar vazio"
 
 $resumoResp = Invoke-Api -Method "GET" -Path "/api/estoque/resumo"
-Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta") -eq 15) -Message "global camiseta esperado=15 apos excluir"
+Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta-p") -eq 15) -Message "global camiseta-p esperado=15 apos excluir"
 Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "caneca") -eq 7) -Message "global caneca esperado=7 apos excluir"
 Write-Host "[OK] Cenario 7"
 
 # Cenario 8 - venda de companheiro + financeiro
 $venda = Invoke-Api -Method "POST" -Path "/api/estoque/entrada" -Body @{
-  material_id = "camiseta"; tipo = "venda_companheiro"; quantidade = 2; origem = "qa_manual"; companheiro_id = "hugo"; destino_tipo = "cliente_final";
+  material_id = "camiseta-p"; tipo = "venda_companheiro"; quantidade = 2; origem = "qa_manual"; companheiro_id = "hugo"; destino_tipo = "cliente_final";
 }
 Assert-Status -Response $venda -ExpectedStatus 200 -Context "venda companheiro"
 $financeiroId = [int]$venda.Json.financeiro.id
@@ -232,8 +232,8 @@ Assert-True -Condition ([int]$fin.valor_unitario -eq 50) -Message "valor_unitari
 Assert-True -Condition ([int]$fin.valor_total -eq 100) -Message "valor_total esperado=100"
 
 $resumoResp = Invoke-Api -Method "GET" -Path "/api/estoque/resumo"
-Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta") -eq 13) -Message "global camiseta esperado=13 apos venda"
-Assert-True -Condition ((Get-CompSaldo $resumoResp.Json "hugo" "camiseta") -eq 3) -Message "hugo camiseta esperado=3 apos venda"
+Assert-True -Condition ((Get-GlobalSaldo $resumoResp.Json "camiseta-p") -eq 13) -Message "global camiseta-p esperado=13 apos venda"
+Assert-True -Condition ((Get-CompSaldo $resumoResp.Json "hugo" "camiseta-p") -eq 3) -Message "hugo camiseta-p esperado=3 apos venda"
 Write-Host "[OK] Cenario 8"
 
 # Cenario 9 - repasse financeiro
@@ -254,7 +254,7 @@ $negPedido = Invoke-Api -Method "PUT" -Path "/api/pedidos" -Body @{
       nome = "Pedido sem companheiro"
       data = (Get-Date).ToString("dd/MM/yyyy")
       tel = ""
-      itens = @{ camiseta = 1 }
+      itens = @{ "camiseta-p" = 1 }
       companheiro_por_item = @{}
       pago = "Não"
       pagData = ""
@@ -265,19 +265,19 @@ Assert-True -Condition ($negPedido.StatusCode -eq 400) -Message "negativo pedido
 Assert-True -Condition ($negPedido.Raw -match "companheiro_id obrigatorio") -Message "mensagem esperada para pedido sem companheiro"
 
 $negTransferencia = Invoke-Api -Method "POST" -Path "/api/estoque/entrada" -Body @{
-  material_id = "camiseta"; tipo = "transferencia_companheiro"; quantidade = 999; origem = "qa_negativo"; companheiro_id = "hugo";
+  material_id = "camiseta-p"; tipo = "transferencia_companheiro"; quantidade = 999; origem = "qa_negativo"; companheiro_id = "hugo";
 }
 Assert-True -Condition ($negTransferencia.StatusCode -eq 400) -Message "negativo transferencia acima do saldo deveria retornar 400"
 Assert-True -Condition ($negTransferencia.Raw -match "Estoque global insuficiente") -Message "mensagem esperada para transferencia acima do saldo global"
 
 $negVendaComp = Invoke-Api -Method "POST" -Path "/api/estoque/entrada" -Body @{
-  material_id = "camiseta"; tipo = "venda_companheiro"; quantidade = 4; origem = "qa_negativo"; companheiro_id = "hugo";
+  material_id = "camiseta-p"; tipo = "venda_companheiro"; quantidade = 4; origem = "qa_negativo"; companheiro_id = "hugo";
 }
 Assert-True -Condition ($negVendaComp.StatusCode -eq 400) -Message "negativo venda acima do saldo do companheiro deveria retornar 400"
 Assert-True -Condition ($negVendaComp.Raw -match "Saldo do companheiro insuficiente") -Message "mensagem esperada para venda acima do saldo do companheiro"
 
 $negQtd = Invoke-Api -Method "POST" -Path "/api/estoque/entrada" -Body @{
-  material_id = "camiseta"; tipo = "entrada"; quantidade = 0; origem = "qa_negativo";
+  material_id = "camiseta-p"; tipo = "entrada"; quantidade = 0; origem = "qa_negativo";
 }
 Assert-True -Condition ($negQtd.StatusCode -eq 400) -Message "negativo quantidade zero deveria retornar 400"
 Assert-True -Condition ($negQtd.Raw -match "quantidade invalida") -Message "mensagem esperada para quantidade invalida"

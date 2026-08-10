@@ -49,6 +49,14 @@ materiais-evento/
 - `ativo`
 - `estoque_minimo`
 
+IDs canonicos atuais:
+- `camiseta-p`
+- `camiseta-g`
+- `caneca`
+- `garrafa`
+- `chaveiro`
+- `copo-termico`
+
 ### pedidos
 - `id`
 - `nome`

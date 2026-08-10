@@ -618,8 +618,12 @@ async function carregarMateriais() {
     if (!materiais.length) throw new Error('materiais_vazio');
   } catch(e) {
     materiais = [
-      { id:'camiseta', nome:'Camiseta', preco:50 },
-      { id:'caneca',   nome:'Caneca',   preco:35 }
+      { id:'camiseta-p', nome:'camiseta P', preco:50 },
+      { id:'camiseta-g', nome:'camiseta-g', preco:60 },
+      { id:'caneca', nome:'Caneca', preco:35 },
+      { id:'garrafa', nome:'Garrafa', preco:30 },
+      { id:'chaveiro', nome:'Chaveiro', preco:10 },
+      { id:'copo-termico', nome:'Copo termico', preco:40 }
     ];
   }
 }

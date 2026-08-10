@@ -49,30 +49,30 @@ Validacao pos-truncamento:
 
 2. Entrada de estoque global
 - Passo: `+ MATERIAL` tipo `entrada`:
-  - `camiseta=20`
+  - `camiseta-p=20`
   - `caneca=10`
-- Esperado: global `camiseta=20`, `caneca=10`.
+- Esperado: global `camiseta-p=20`, `caneca=10`.
 
 3. Transferencia para companheiro
 - Passo: `+ MATERIAL` tipo `transferencia_companheiro` para `hugo`:
-  - `camiseta=5`
+  - `camiseta-p=5`
   - `caneca=3`
 - Esperado:
-  - global `camiseta=15`, `caneca=7`
-  - `hugo`: `camiseta=5`, `caneca=3`
+  - global `camiseta-p=15`, `caneca=7`
+  - `hugo`: `camiseta-p=5`, `caneca=3`
 
 4. Criar pedido
-- Passo: pedido novo com `2 camiseta + 1 caneca`, companheiro `hugo`, `pago=Não`.
+- Passo: pedido novo com `2 camiseta-p + 1 caneca`, companheiro `hugo`, `pago=Não`.
 - Esperado:
   - persistido com sucesso em `PUT /api/pedidos`
   - total do pedido `R$ 135`
-  - global cai para `camiseta=13`, `caneca=6`
+  - global cai para `camiseta-p=13`, `caneca=6`
 
 5. Editar pedido
-- Passo: alterar para `3 camiseta + 1 caneca` (mesmo companheiro).
+- Passo: alterar para `3 camiseta-p + 1 caneca` (mesmo companheiro).
 - Esperado:
   - total do pedido `R$ 185`
-  - global `camiseta=12`, `caneca=6`
+  - global `camiseta-p=12`, `caneca=6`
 
 6. Marcar pago
 - Passo: marcar pedido como pago.
@@ -84,18 +84,18 @@ Validacao pos-truncamento:
 - Passo: excluir pedido.
 - Esperado:
   - `pedidos=[]`
-  - global volta para `camiseta=15`, `caneca=7`
+  - global volta para `camiseta-p=15`, `caneca=7`
 
 8. Venda do companheiro
-- Passo: `+ MATERIAL` tipo `venda_companheiro`, `hugo`, `camiseta=2`.
+- Passo: `+ MATERIAL` tipo `venda_companheiro`, `hugo`, `camiseta-p=2`.
 - Esperado:
   - movimento em `estoque` registrado
   - `financeiro` criado com:
     - `status_repasse=pendente`
     - `valor_unitario=50`
     - `valor_total=100`
-  - saldo global `camiseta=13`
-  - saldo de `hugo` em `camiseta=3`
+  - saldo global `camiseta-p=13`
+  - saldo de `hugo` em `camiseta-p=3`
 
 9. Repasse financeiro
 - Passo: `PATCH /api/financeiro/{id}/repasse`.

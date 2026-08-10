@@ -1,4 +1,8 @@
 [
-  { "id": "camiseta", "nome": "Camiseta", "emoji": "", "preco": 50 },
-  { "id": "caneca",   "nome": "Caneca",   "emoji": "", "preco": 35 }
+  { "id": "camiseta-p", "nome": "camiseta P", "emoji": "🎽", "preco": 50 },
+  { "id": "camiseta-g", "nome": "camiseta-g", "emoji": "👕", "preco": 60 },
+  { "id": "caneca", "nome": "Caneca", "emoji": "🥛", "preco": 35 },
+  { "id": "garrafa", "nome": "Garrafa", "emoji": "🍶", "preco": 30 },
+  { "id": "chaveiro", "nome": "Chaveiro", "emoji": "🗝️", "preco": 10 },
+  { "id": "copo-termico", "nome": "Copo termico", "emoji": "🥛", "preco": 40 }
 ]

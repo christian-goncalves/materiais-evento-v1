@@ -78,3 +78,9 @@ Este diretorio e a referencia operacional para execucao e PR.
 - Documento: `docs/spec/plano-teste-manual-modelo-regras.md`
 - Truncate transacional: `powershell -ExecutionPolicy Bypass -File .\scripts\truncate-transacional.ps1 -BaseUrl http://localhost:3010`
 - Validacao com gabarito: `powershell -ExecutionPolicy Bypass -File .\scripts\validar-plano-manual.ps1 -BaseUrl http://localhost:3010`
+
+## Diagnostico atual da planilha (2026-04-28)
+
+- Documento: `docs/spec/diagnostico-estabilizacao-2026-04-28.md`
+- IDs canonicos atuais de camiseta: `camiseta-p` e `camiseta-g`.
+- A aba `estoque_manual` e referencia visual/de conferencia; a API consome a aba `estoque`.
